@@ -1,4 +1,13 @@
 import { Metadata } from 'next'
+import Hero from '@/components/Hero'
+import ProblemSection from '@/components/ProblemSection'
+import SolutionSection from '@/components/SolutionSection'
+import HowItWorks from '@/components/HowItWorks'
+import SocialProof from '@/components/SocialProof'
+import Pricing from '@/components/Pricing'
+import CTA from '@/components/CTA'
+import EmailCapture from '@/components/EmailCapture'
+import Survey from '@/components/Survey'
 
 export const metadata: Metadata = {
   title: 'AI Coding Agents - Deploy & Scale with SashiDo',
@@ -8,15 +17,15 @@ export const metadata: Metadata = {
 export default function AICodingAgentsPage() {
   return (
     <main className="min-h-screen">
-      {/* Components will be added in subsequent steps */}
-      <div className="section-container">
-        <h1 className="text-h1 text-center text-gradient">
-          AI Coding Agents Landing Page
-        </h1>
-        <p className="text-center mt-4 text-lg text-dark-600">
-          Components will be built in the next steps
-        </p>
-      </div>
+      <Hero />
+      <ProblemSection />
+      <SolutionSection />
+      <HowItWorks />
+      <SocialProof />
+      <Pricing />
+      <CTA variant="primary" showSurvey={true} />
+      <Survey />
+      <CTA variant="secondary" showSurvey={false} />
     </main>
   )
 }

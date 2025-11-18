@@ -4,32 +4,34 @@
 
 @layer base {
   body {
-    @apply bg-white text-dark-900 antialiased;
+    @apply bg-gradient-to-b from-[#603c87] to-[#373f7c] min-h-screen text-white antialiased text-sm;
   }
 }
 
 @layer components {
   /* Button Styles */
   .btn-primary {
-    @apply bg-primary hover:bg-primary-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-soft hover:shadow-medium;
+    background-color: #0ea5f0;
+    @apply hover:bg-[#0c8dd0] text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-soft hover:shadow-medium;
   }
   
   .btn-secondary {
-    @apply bg-secondary hover:bg-secondary-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-soft hover:shadow-medium;
+    background-color: #0ea5f0;
+    @apply hover:bg-[#0c8dd0] text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-soft hover:shadow-medium;
   }
   
   .btn-outline {
-    @apply border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200;
+    @apply border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold px-6 py-3 rounded-lg transition-all duration-200 backdrop-blur-sm;
   }
   
   /* Input Styles */
   .input-primary {
-    @apply w-full px-4 py-3 border-2 border-light-400 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200;
+    @apply w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 text-white placeholder:text-white/50 backdrop-blur-md;
   }
   
-  /* Card Styles */
+  /* Card Styles - Glassmorphism */
   .card {
-    @apply bg-white rounded-2xl shadow-soft hover:shadow-medium transition-shadow duration-300 p-6;
+    @apply bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md hover:bg-white/10 transition-all duration-300 p-6;
   }
   
   /* Section Container */
@@ -39,10 +41,6 @@
 }
 
 @layer utilities {
-  .text-gradient {
-    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
-  }
-  
   .bg-gradient-primary {
     @apply bg-gradient-to-r from-primary to-primary-600;
   }

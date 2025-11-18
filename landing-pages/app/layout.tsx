@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Ubuntu } from 'next/font/google'
 import './globals.css'
+import Footer from '@/components/Footer' 
 
-const inter = Inter({ 
+const ubuntu = Ubuntu({ 
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-inter',
+  weight: ['300', '400', '500', '700'],
+  variable: '--font-ubuntu',
 })
 
 export const metadata: Metadata = {
@@ -37,9 +39,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className={inter.className}>
+    <html lang="en" className={ubuntu.variable}>
+      <body className={ubuntu.className}>
         {children}
+        <Footer />
       </body>
     </html>
   )
