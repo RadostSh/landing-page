@@ -2,58 +2,159 @@
 
 import { useState } from 'react'
 
-interface SurveyData {
-  currentDeployment: string
-  biggestChallenge: string
-  monthlyBudget: string
-  timeline: string
-  email: string
-}
+const SURVEY_QUESTIONS = [
+  {
+    id: 'platform',
+    question: 'Which AI coding platform do you use? (Select all that apply)',
+    type: 'checkbox',
+    options: ['Lovable', 'Replit', 'v0.dev (Vercel)', 'Cursor', 'Bolt.new', 'Other', 'I don\'t use AI coding tools (yet)'],
+  },
+  {
+    id: 'needs_backend',
+    question: 'Do your AI-generated apps need a backend? (database, API, authentication)',
+    type: 'radio',
+    options: ['Yes, always', 'Yes, sometimes', 'No, just static frontends', 'Not sure yet'],
+  },
+  {
+    id: 'current_deployment',
+    question: 'Where do you currently deploy your apps?',
+    type: 'radio',
+    options: [
+      "Don't deploy (just prototypes)",
+      'Vercel/Netlify (frontend only)',
+      'Railway',
+      'Heroku',
+      'Self-hosted',
+      'Lovable Cloud / Replit hosting',
+      'Other',
+    ],
+  },
+  {
+    id: 'pricing',
+    question: 'What would you pay for a backend platform (Parse Server + MongoDB + S3)?',
+    type: 'radio',
+    options: ['$0 (free only)', '$10-20/month', '$20-50/month', '$50-100/month', '$100+/month', 'Depends on features'],
+  },
+  {
+    id: 'pain_point',
+    question: "What's your biggest challenge deploying AI-generated apps to production?",
+    type: 'textarea',
+    maxLength: 200,
+  },
+]
 
 export default function Survey() {
-  const [step, setStep] = useState(1)
-  const [data, setData] = useState<SurveyData>({
-    currentDeployment: '',
-    biggestChallenge: '',
-    monthlyBudget: '',
-    timeline: '',
-    email: '',
-  })
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [message, setMessage] = useState('')
+  const [responses, setResponses] = useState<Record<string, any>>({})
+  const [currentQuestion, setCurrentQuestion] = useState(-1) // -1 = introduction, 0+ = questions
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isComplete, setIsComplete] = useState(false)
+  const [error, setError] = useState('')
+  const [otherPlatform, setOtherPlatform] = useState('')
+  const [otherDeployment, setOtherDeployment] = useState('')
 
-  const totalSteps = 5
+  const question = currentQuestion >= 0 ? SURVEY_QUESTIONS[currentQuestion] : null
+
+  const isStepValid = () => {
+    if (!question) return false
+    
+    const response = responses[question.id]
+    
+    if (question.type === 'checkbox') {
+      return Array.isArray(response) && response.length > 0
+    }
+    
+    if (question.type === 'radio') {
+      return response && response !== ''
+    }
+    
+    if (question.type === 'textarea') {
+      return response && response.trim().length > 0 && response.length <= (question.maxLength || 200)
+    }
+    
+    return false
+  }
+
+  const handleStartSurvey = () => {
+    setCurrentQuestion(0)
+  }
+
+  const handleCheckboxChange = (option: string) => {
+    if (!question) return
+    const current = responses[question.id] || []
+    const isArray = Array.isArray(current)
+    const selected = isArray ? current : []
+    
+    if (selected.includes(option)) {
+      const updated = selected.filter((item: string) => item !== option)
+      setResponses({ ...responses, [question.id]: updated })
+      if (option === 'Other') {
+        setOtherPlatform('')
+      }
+    } else {
+      setResponses({ ...responses, [question.id]: [...selected, option] })
+    }
+  }
+
+  const handleRadioChange = (option: string) => {
+    if (!question) return
+    setResponses({ ...responses, [question.id]: option })
+    if (question.id === 'current_deployment' && option !== 'Other') {
+      setOtherDeployment('')
+    }
+  }
+
+  const handleTextareaChange = (value: string) => {
+    if (!question) return
+    if (value.length <= (question.maxLength || 200)) {
+      setResponses({ ...responses, [question.id]: value })
+    }
+  }
 
   const handleNext = () => {
-    if (step < totalSteps) {
-      setStep(step + 1)
+    if (!question) return
+    if (isStepValid() && currentQuestion < SURVEY_QUESTIONS.length - 1) {
+      setCurrentQuestion(currentQuestion + 1)
+      setError('')
     }
   }
 
   const handleBack = () => {
-    if (step > 1) {
-      setStep(step - 1)
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1)
+      setError('')
+    } else if (currentQuestion === 0) {
+      setCurrentQuestion(-1) // Go back to introduction
+      setError('')
     }
   }
 
   const handleSubmit = async () => {
-    setStatus('loading')
-    setMessage('')
+    if (!isStepValid()) {
+      setError('Please answer this question before submitting.')
+      return
+    }
+
+    setIsSubmitting(true)
+    setError('')
 
     try {
+      // Prepare data for submission
+      const submissionData = {
+        ...responses,
+        otherPlatform: otherPlatform || undefined,
+        otherDeployment: otherDeployment || undefined,
+      }
+
       const response = await fetch('/api/survey', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(submissionData),
       })
 
       const result = await response.json()
 
       if (response.ok) {
-        setStatus('success')
-        setMessage('Thank you! We\'ll be in touch soon with early access.')
+        setIsComplete(true)
         
         // Track conversion
         if (typeof window !== 'undefined' && (window as any).gtag) {
@@ -63,41 +164,89 @@ export default function Survey() {
           })
         }
       } else {
-        setStatus('error')
-        setMessage(result.error || 'Something went wrong. Please try again.')
+        setError(result.error || 'Something went wrong. Please try again.')
+        setIsSubmitting(false)
       }
     } catch (error) {
-      setStatus('error')
-      setMessage('Network error. Please try again.')
+      setError('Network error. Please try again.')
+      setIsSubmitting(false)
     }
   }
 
-  const isStepValid = () => {
-    switch (step) {
-      case 1: return data.currentDeployment !== ''
-      case 2: return data.biggestChallenge !== ''
-      case 3: return data.monthlyBudget !== ''
-      case 4: return data.timeline !== ''
-      case 5: return data.email !== '' && data.email.includes('@')
-      default: return false
-    }
-  }
-
-  if (status === 'success') {
+  if (isComplete) {
     return (
       <section className="section-container bg-transparent" id="survey">
         <div className="max-w-2xl mx-auto text-center">
           <div className="text-6xl mb-6">🎉</div>
-          <h2 className="text-h2 mb-4 text-white">Thank You!</h2>
-          <p className="text-lg text-blue-100 mb-8">
-            {message}
-          </p>
+          <h2 className="text-h2 mb-4 text-white">
+            Thank you! Your feedback helps us build the platform you need.
+          </h2>
+          <div className="bg-white/10 border border-white/20 rounded-2xl p-6 mb-8 backdrop-blur-md">
+            <p className="text-lg text-blue-100 mb-2">Your 50% off code:</p>
+            <div className="inline-block bg-secondary/20 border-2 border-secondary rounded-lg px-6 py-3 mb-4">
+              <code className="text-2xl font-bold text-secondary-200">EARLY50</code>
+            </div>
+            <p className="text-sm text-gray-400">(valid for first month)</p>
+          </div>
+          <div className="mb-8">
+            <p className="text-lg text-white mb-4">Ready to deploy now?</p>
           <button
             onClick={() => window.location.href = 'https://www.sashido.io/signup'}
             className="btn-secondary text-lg px-8 py-4"
           >
-            Start Your Free Trial
+              Start Free Trial
           </button>
+          </div>
+          <p className="text-sm text-gray-400">
+            We'll email you when new features launch.
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  // Show introduction screen
+  if (currentQuestion === -1) {
+    return (
+      <section className="section-container bg-transparent" id="survey">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-h2 mb-4 text-white">
+              Help Us Build the Best Backend for AI-Generated Apps
+            </h2>
+            <p className="text-lg text-blue-100 mb-8">
+              We're building SashiDo specifically for developers using Lovable, Replit, v0.dev, and Cursor.
+            </p>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 mb-8 backdrop-blur-md">
+            <p className="text-lg text-white mb-6 text-center">
+              Take 2 minutes to share your needs, and get:
+            </p>
+            <div className="space-y-4 mb-8">
+              <div className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg">
+                <span className="text-2xl mr-4">✅</span>
+                <span className="text-gray-300 text-lg">50% off your first month</span>
+              </div>
+              <div className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg">
+                <span className="text-2xl mr-4">✅</span>
+                <span className="text-gray-300 text-lg">Early access to new features</span>
+              </div>
+              <div className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg">
+                <span className="text-2xl mr-4">✅</span>
+                <span className="text-gray-300 text-lg">Influence our roadmap</span>
+              </div>
+            </div>
+
+            <div className="text-center">
+              <button
+                onClick={handleStartSurvey}
+                className="btn-primary text-lg px-8 py-4"
+              >
+                Start Survey
+              </button>
+            </div>
+          </div>
         </div>
       </section>
     )
@@ -106,7 +255,6 @@ export default function Survey() {
   return (
     <section className="section-container bg-transparent" id="survey">
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-h2 mb-4 text-white">
             Help Us Understand Your Needs
@@ -119,150 +267,110 @@ export default function Survey() {
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between mb-2">
-            <span className="text-sm text-gray-400">Step {step} of {totalSteps}</span>
-            <span className="text-sm text-gray-400">{Math.round((step / totalSteps) * 100)}%</span>
+            <span className="text-sm text-gray-400">Question {currentQuestion + 1} of {SURVEY_QUESTIONS.length}</span>
+            <span className="text-sm text-gray-400">{Math.round(((currentQuestion + 1) / SURVEY_QUESTIONS.length) * 100)}%</span>
           </div>
           <div className="w-full bg-white/10 rounded-full h-2">
             <div 
               className="bg-gradient-to-r from-primary to-secondary h-2 rounded-full transition-all duration-300"
-              style={{ width: `${(step / totalSteps) * 100}%` }}
+              style={{ width: `${((currentQuestion + 1) / SURVEY_QUESTIONS.length) * 100}%` }}
             />
           </div>
         </div>
 
-        {/* Survey Steps */}
+        {/* Question Card */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-8 mb-8 backdrop-blur-md">
-          {step === 1 && (
-            <div>
-              <label className="block text-lg font-semibold mb-4 text-white">
-                Where do you currently deploy your applications?
-              </label>
+          <h3 className="text-lg font-semibold mb-6 text-white">{question?.question}</h3>
+
+          {/* Checkbox Question */}
+          {question && question.type === 'checkbox' && (
               <div className="space-y-3">
-                {['AWS', 'Google Cloud', 'Azure', 'Heroku', 'DigitalOcean', 'Other', 'Not deployed yet'].map((option) => (
-                  <label key={option} className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10 transition-colors backdrop-blur-sm">
+              {question.options?.map((option) => (
+                <label
+                  key={option}
+                  className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10 transition-colors backdrop-blur-sm"
+                >
+                    <input
+                    type="checkbox"
+                    checked={(responses[question.id] || []).includes(option)}
+                    onChange={() => handleCheckboxChange(option)}
+                    className="mr-3 w-4 h-4 text-primary rounded"
+                    />
+                    <span className="text-gray-300">{option}</span>
+                  </label>
+                ))}
+              {question.id === 'platform' && (responses[question.id] || []).includes('Other') && (
+                <div className="mt-3 ml-7">
+                  <input
+                    type="text"
+                    value={otherPlatform}
+                    onChange={(e) => setOtherPlatform(e.target.value)}
+                    placeholder="Please specify..."
+                    className="input-primary"
+                  />
+            </div>
+          )}
+            </div>
+          )}
+
+          {/* Radio Question */}
+          {question && question.type === 'radio' && (
+              <div className="space-y-3">
+              {question.options?.map((option) => (
+                <label
+                  key={option}
+                  className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10 transition-colors backdrop-blur-sm"
+                >
                     <input
                       type="radio"
-                      name="currentDeployment"
+                    name={question.id}
                       value={option}
-                      checked={data.currentDeployment === option}
-                      onChange={(e) => setData({ ...data, currentDeployment: e.target.value })}
+                    checked={responses[question.id] === option}
+                    onChange={() => handleRadioChange(option)}
                       className="mr-3 w-4 h-4 text-primary"
                     />
                     <span className="text-gray-300">{option}</span>
                   </label>
                 ))}
-              </div>
+              {question.id === 'current_deployment' && responses[question.id] === 'Other' && (
+                <div className="mt-3 ml-7">
+                  <input
+                    type="text"
+                    value={otherDeployment}
+                    onChange={(e) => setOtherDeployment(e.target.value)}
+                    placeholder="Please specify..."
+                    className="input-primary"
+                  />
+            </div>
+          )}
             </div>
           )}
 
-          {step === 2 && (
+          {/* Textarea Question */}
+          {question && question.type === 'textarea' && (
             <div>
-              <label className="block text-lg font-semibold mb-4 text-white">
-                What's your biggest deployment challenge?
-              </label>
-              <div className="space-y-3">
-                {[
-                  'Complex setup and configuration',
-                  'High costs',
-                  'Lack of support',
-                  'Scaling and performance',
-                  'Security and compliance',
-                  'Maintenance burden'
-                ].map((option) => (
-                  <label key={option} className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10 transition-colors backdrop-blur-sm">
-                    <input
-                      type="radio"
-                      name="biggestChallenge"
-                      value={option}
-                      checked={data.biggestChallenge === option}
-                      onChange={(e) => setData({ ...data, biggestChallenge: e.target.value })}
-                      className="mr-3 w-4 h-4 text-primary"
-                    />
-                    <span className="text-gray-300">{option}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {step === 3 && (
-            <div>
-              <label className="block text-lg font-semibold mb-4 text-white">
-                What's your monthly infrastructure budget?
-              </label>
-              <div className="space-y-3">
-                {[
-                  'Less than $50',
-                  '$50 - $200',
-                  '$200 - $500',
-                  '$500 - $1,000',
-                  'More than $1,000'
-                ].map((option) => (
-                  <label key={option} className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10 transition-colors backdrop-blur-sm">
-                    <input
-                      type="radio"
-                      name="monthlyBudget"
-                      value={option}
-                      checked={data.monthlyBudget === option}
-                      onChange={(e) => setData({ ...data, monthlyBudget: e.target.value })}
-                      className="mr-3 w-4 h-4 text-primary"
-                    />
-                    <span className="text-gray-300">{option}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {step === 4 && (
-            <div>
-              <label className="block text-lg font-semibold mb-4 text-white">
-                When are you planning to deploy?
-              </label>
-              <div className="space-y-3">
-                {[
-                  'This week',
-                  'This month',
-                  'Next 3 months',
-                  'Not sure yet'
-                ].map((option) => (
-                  <label key={option} className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10 transition-colors backdrop-blur-sm">
-                    <input
-                      type="radio"
-                      name="timeline"
-                      value={option}
-                      checked={data.timeline === option}
-                      onChange={(e) => setData({ ...data, timeline: e.target.value })}
-                      className="mr-3 w-4 h-4 text-primary"
-                    />
-                    <span className="text-gray-300">{option}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {step === 5 && (
-            <div>
-              <label className="block text-lg font-semibold mb-4 text-white">
-                What's your email?
-              </label>
-              <p className="text-blue-100 mb-4">
-                We'll send you early access to features based on your needs.
+              <p className="text-sm text-blue-100 mb-4">
+                (Open text, {question.maxLength || 200} characters max)
               </p>
-              <input
-                type="email"
-                value={data.email}
-                onChange={(e) => setData({ ...data, email: e.target.value })}
-                placeholder="your@email.com"
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 text-white placeholder:text-white/50 backdrop-blur-md"
+              <textarea
+                value={responses[question.id] || ''}
+                onChange={(e) => handleTextareaChange(e.target.value)}
+                placeholder="Tell us about your challenges..."
+                rows={5}
+                maxLength={question.maxLength || 200}
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 text-white placeholder:text-white/50 backdrop-blur-md resize-none"
               />
+              <div className="mt-2 text-right">
+                <span className={`text-sm ${(responses[question.id] || '').length > (question.maxLength || 200) * 0.9 ? 'text-yellow-400' : 'text-gray-400'}`}>
+                  {(responses[question.id] || '').length} / {question.maxLength || 200} characters
+                </span>
+              </div>
             </div>
           )}
 
-          {status === 'error' && (
+          {error && (
             <div className="mt-4 p-4 bg-red-500/20 border border-red-500/30 rounded-lg text-red-200">
-              {message}
+              {error}
             </div>
           )}
         </div>
@@ -271,19 +379,15 @@ export default function Survey() {
         <div className="flex justify-between items-center">
           <button
             onClick={handleBack}
-            disabled={step === 1}
             className={`
               px-6 py-3 rounded-lg font-semibold transition-all duration-200
-              ${step === 1 
-                ? 'opacity-0 cursor-not-allowed' 
-                : 'text-gray-300 hover:bg-white/10'
-              }
+              text-gray-300 hover:bg-white/10
             `}
           >
             ← Back
           </button>
 
-          {step < totalSteps ? (
+          {currentQuestion < SURVEY_QUESTIONS.length - 1 ? (
             <button
               onClick={handleNext}
               disabled={!isStepValid()}
@@ -300,16 +404,16 @@ export default function Survey() {
           ) : (
             <button
               onClick={handleSubmit}
-              disabled={!isStepValid() || status === 'loading'}
+              disabled={!isStepValid() || isSubmitting}
               className={`
                 px-8 py-3 rounded-lg font-semibold transition-all duration-200
-                ${isStepValid() && status !== 'loading'
+                ${isStepValid() && !isSubmitting
                   ? 'bg-secondary hover:bg-secondary-600 text-white'
                   : 'bg-white/10 text-gray-500 cursor-not-allowed'
                 }
               `}
             >
-              {status === 'loading' ? 'Submitting...' : 'Complete Survey'}
+              {isSubmitting ? 'Submitting...' : 'Submit Survey'}
             </button>
           )}
         </div>

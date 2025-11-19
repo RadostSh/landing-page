@@ -68,22 +68,6 @@ export default function HowItWorks() {
             </div>
           ))}
         </div>
-        
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <p className="text-xl text-gray-300 mb-6">
-            Ready to get started?
-          </p>
-          <button 
-            onClick={() => {
-              const emailSection = document.getElementById('email-capture')
-              emailSection?.scrollIntoView({ behavior: 'smooth' })
-            }}
-            className="btn-secondary text-lg px-8 py-4"
-          >
-            Start Your Free Trial
-          </button>
-        </div>
       </div>
     </section>
   )

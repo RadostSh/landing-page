@@ -23,7 +23,7 @@ export default function Footer() {
               About
             </Link>
             <Link 
-              href="https://docs.sashido.io" 
+              href="/docs" 
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-300 hover:text-white text-sm md:text-base transition-colors duration-200"

@@ -7,7 +7,7 @@ export default function Hero() {
     <section className="section-container pt-20 md:pt-32 bg-transparent">
       <div className="max-w-5xl mx-auto text-center">
         {/* Main Headline */}
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
           Deploy Your AI-Generated App to Production in 60 Seconds
         </h1>
         

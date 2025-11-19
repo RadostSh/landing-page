@@ -23,9 +23,8 @@ export default function AICodingAgentsPage() {
       <HowItWorks />
       <SocialProof />
       <Pricing />
-      <CTA variant="primary" showSurvey={true} />
+      <CTA showSurvey={true} />
       <Survey />
-      <CTA variant="secondary" showSurvey={false} />
     </main>
   )
 }

@@ -3,47 +3,10 @@
 import Link from 'next/link'
 
 interface CTAProps {
-  variant?: 'primary' | 'secondary'
   showSurvey?: boolean
 }
 
-export default function CTA({ variant = 'primary', showSurvey = true }: CTAProps) {
-  if (variant === 'secondary') {
-    return (
-      <section className="section-container bg-transparent">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-h2 text-white mb-6">
-            Ready to Deploy Your AI Agent?
-          </h2>
-          <p className="text-lg mb-8 text-blue-100">
-            Join developers who trust SashiDo for their production AI infrastructure
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link 
-              href="https://www.sashido.io/signup"
-              target="_blank"
-              className="bg-white text-primary hover:bg-gray-100 font-semibold px-8 py-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-lg inline-block"
-            >
-              Start Free Trial
-            </Link>
-            <Link
-              href="https://www.sashido.io/contact"
-              target="_blank"
-              className="border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold px-8 py-4 rounded-lg transition-all duration-200 text-lg inline-block backdrop-blur-sm"
-            >
-              Talk to Sales
-            </Link>
-          </div>
-          
-          <p className="text-sm text-gray-400 mt-6">
-            14-day free trial • No credit card required • Expert support included
-          </p>
-        </div>
-      </section>
-    )
-  }
-
+export default function CTA({ showSurvey = true }: CTAProps) {
   return (
     <section className="section-container bg-transparent" id="email-capture">
       <div className="max-w-4xl mx-auto">

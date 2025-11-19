@@ -5,26 +5,22 @@ export default function SolutionSection() {
     {
       icon: '🚀',
       title: 'One-Click Deployment',
-      description: 'Upload your code → We handle the rest',
-      subtext: 'Backend live in 60 seconds'
+      description: 'Upload your code → We handle the rest\nBackend live in 60 seconds'
     },
     {
       icon: '🏗️',
       title: 'Parse Server Expertise',
-      description: '10 years running Parse Server in production',
-      subtext: 'Trusted by 1,000+ apps'
+      description: '10 years running Parse Server in production\nTrusted by 1,000+ apps'
     },
     {
       icon: '🇪🇺',
       title: 'European Infrastructure',
-      description: 'EU data centers (Paris)',
-      subtext: 'GDPR-compliant by default\nNo data leaves Europe'
+      description: 'EU data centers (Paris)\nGDPR-compliant by default\nNo data leaves Europe'
     },
     {
       icon: '💰',
       title: 'Developer-Friendly Pricing',
-      description: '14-day free trial',
-      subtext: '$20/month starter plan\nNo surprise charges'
+      description: '14-day free trial\n$20/month starter plan\nNo surprise charges'
     }
   ]
 
@@ -49,11 +45,8 @@ export default function SolutionSection() {
               <h3 className="text-2xl font-semibold text-white mb-3">
                 {feature.title}
               </h3>
-              <p className="text-gray-300 text-lg font-medium mb-2">
+              <p className="text-gray-300 text-lg font-medium whitespace-pre-line">
                 {feature.description}
-              </p>
-              <p className="text-blue-100 whitespace-pre-line">
-                {feature.subtext}
               </p>
             </div>
           ))}
