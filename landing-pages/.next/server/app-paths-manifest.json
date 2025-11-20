@@ -1,4 +1,4 @@
 {
   "/ai-coding-agents/page": "app/ai-coding-agents/page.js",
-  "/api/subscribe/route": "app/api/subscribe/route.js"
+  "/icon.png/route": "app/icon.png/route.js"
 }

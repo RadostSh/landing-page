@@ -6,36 +6,72 @@
   body {
     @apply bg-gradient-to-b from-[#603c87] to-[#373f7c] min-h-screen text-white antialiased text-sm;
   }
+  
+  /* Mobile-first base styles */
+  * {
+    @apply box-border;
+  }
+  
+  html {
+    @apply overflow-x-hidden;
+  }
+  
+  img, video {
+    @apply max-w-full h-auto;
+  }
 }
 
 @layer components {
-  /* Button Styles */
+  /* Button Styles - Mobile Responsive */
   .btn-primary {
-    @apply bg-primary hover:bg-primary-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-soft hover:shadow-medium;
+    @apply bg-primary hover:bg-primary-600 text-white font-semibold 
+           px-4 py-2.5 sm:px-6 sm:py-3 
+           text-sm sm:text-base
+           rounded-lg transition-all duration-200 
+           shadow-soft hover:shadow-medium
+           w-full sm:w-auto;
   }
   
   .btn-outline {
-    @apply border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold px-6 py-3 rounded-lg transition-all duration-200 backdrop-blur-sm;
+    @apply border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 
+           font-semibold px-4 py-2.5 sm:px-6 sm:py-3 
+           text-sm sm:text-base
+           rounded-lg transition-all duration-200 backdrop-blur-sm
+           w-full sm:w-auto;
   }
   
-  /* Input Styles */
+  /* Input Styles - Mobile Responsive */
   .input-primary {
-    @apply w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 text-white placeholder:text-white/50 backdrop-blur-md;
+    @apply w-full px-3 py-2.5 sm:px-4 sm:py-3 
+           text-sm sm:text-base
+           bg-white/5 border border-white/10 rounded-lg 
+           focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 
+           transition-all duration-200 
+           text-white placeholder:text-white/50 backdrop-blur-md;
   }
   
-  /* Textarea Styles */
+  /* Textarea Styles - Mobile Responsive */
   .textarea-primary {
-    @apply w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 text-white placeholder:text-white/50 backdrop-blur-md resize-none;
+    @apply w-full px-3 py-2.5 sm:px-4 sm:py-3 
+           text-sm sm:text-base
+           bg-white/5 border border-white/10 rounded-lg 
+           focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 
+           transition-all duration-200 
+           text-white placeholder:text-white/50 backdrop-blur-md resize-none;
   }
   
-  /* Card Styles - Glassmorphism */
+  /* Card Styles - Glassmorphism - Mobile Responsive */
   .card {
-    @apply bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md hover:bg-white/10 transition-all duration-300 p-6;
+    @apply bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl 
+           backdrop-blur-md hover:bg-white/10 transition-all duration-300 
+           p-4 sm:p-6;
   }
   
-  /* Section Container */
+  /* Section Container - Mobile Responsive */
   .section-container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24;
+    @apply max-w-7xl mx-auto 
+           px-4 sm:px-6 lg:px-8 
+           py-12 sm:py-16 md:py-20 lg:py-24;
   }
   
   /* Navigation Links */
@@ -56,45 +92,61 @@
     @apply text-gray-400;
   }
   
-  /* Section Headers */
+  /* Section Headers - Mobile Responsive */
   .section-header {
-    @apply text-center mb-12;
+    @apply text-center mb-8 sm:mb-12;
   }
   
   .section-header-large {
-    @apply text-center mb-16;
+    @apply text-center mb-10 sm:mb-14 md:mb-16;
   }
   
-  /* Button Variants */
+  /* Button Variants - Mobile Responsive */
   .btn-large {
-    @apply text-lg px-8 py-4;
+    @apply text-base sm:text-lg 
+           px-6 py-3 sm:px-8 sm:py-4;
   }
   
-  /* Form Elements */
+  /* Form Elements - Mobile Responsive */
   .option-label {
-    @apply flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10 transition-colors;
+    @apply flex items-center 
+           p-3 sm:p-4 
+           text-sm sm:text-base
+           bg-white/5 border border-white/10 rounded-lg 
+           cursor-pointer hover:bg-white/10 transition-colors;
   }
   
-  /* Layout Utilities */
+  /* Layout Utilities - Mobile Responsive */
   .cta-container {
-    @apply flex flex-col sm:flex-row gap-4 justify-center items-center;
+    @apply flex flex-col sm:flex-row gap-3 sm:gap-4 
+           justify-center items-stretch sm:items-center;
   }
   
   .benefit-item {
-    @apply flex items-center gap-2;
+    @apply flex items-center gap-1.5 sm:gap-2 
+           text-xs sm:text-sm;
   }
   
   .avatar {
-    @apply w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold text-xl;
+    @apply w-10 h-10 sm:w-12 sm:h-12 
+           bg-gradient-to-br from-primary to-secondary rounded-full 
+           flex items-center justify-center 
+           text-white font-bold text-lg sm:text-xl;
   }
   
-  /* Alert/Message Styles */
+  /* Alert/Message Styles - Mobile Responsive */
   .alert-success {
-    @apply p-4 rounded-lg text-center font-medium bg-secondary/20 text-secondary-200 border border-secondary/30;
+    @apply p-3 sm:p-4 
+           text-sm sm:text-base
+           rounded-lg text-center font-medium 
+           bg-secondary/20 text-secondary-200 border border-secondary/30;
   }
   
   .alert-error {
-    @apply p-4 rounded-lg text-center font-medium bg-red-500/20 text-red-200 border border-red-500/30;
+    @apply p-3 sm:p-4 
+           text-sm sm:text-base
+           rounded-lg text-center font-medium 
+           bg-red-500/20 text-red-200 border border-red-500/30;
   }
 }
 
