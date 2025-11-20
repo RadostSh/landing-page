@@ -11,6 +11,8 @@ landing-pages/node_modules/
 
 # next.js
 /.next/
+**/.next/
+landing-pages/.next/
 /out/
 
 # production
