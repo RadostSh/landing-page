@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { trackSurveyComplete } from '@/lib/analytics'
 
 const SURVEY_BENEFITS = [
   '50% off your first month',
@@ -162,13 +163,8 @@ export default function Survey() {
       if (response.ok) {
         setIsComplete(true)
         
-        // Track conversion
-        if (typeof window !== 'undefined' && (window as any).gtag) {
-          (window as any).gtag('event', 'survey_complete', {
-            event_category: 'engagement',
-            event_label: 'full_survey'
-          })
-        }
+        // Track survey completion
+        trackSurveyComplete()
       } else {
         setError(result.error || 'Something went wrong. Please try again.')
         setIsSubmitting(false)
@@ -198,7 +194,7 @@ export default function Survey() {
             <p className="text-lg text-white mb-4">Ready to deploy now?</p>
             <button
               onClick={() => window.location.href = 'https://dashboard.sashido.io/register'}
-              className="btn-secondary btn-large"
+              className="btn-primary btn-large"
             >
               Start Free Trial
             </button>
@@ -405,7 +401,7 @@ export default function Survey() {
               className={`
                 btn-large font-semibold
                 ${isStepValid() && !isSubmitting
-                  ? 'btn-secondary'
+                  ? 'btn-primary'
                   : 'bg-white/10 text-gray-500 cursor-not-allowed'
                 }
               `}

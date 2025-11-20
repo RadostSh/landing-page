@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { EmailCapture } from '@/components/EmailCapture'
 
 interface CTAProps {
   showSurvey?: boolean
@@ -20,14 +21,8 @@ export default function CTA({ showSurvey = true }: CTAProps) {
             </p>
           </div>
           
-          <div className="cta-container mb-8">
-            <Link 
-              href="https://dashboard.sashido.io/register"
-              target="_blank"
-              className="btn-primary btn-large w-full sm:w-auto text-center"
-            >
-              Start Free Trial
-            </Link>
+          <div className="mb-8">
+            <EmailCapture source="cta_section" />
           </div>
           
           {showSurvey && (

@@ -6,7 +6,6 @@ import HowItWorks from '@/components/HowItWorks'
 import SocialProof from '@/components/SocialProof'
 import Pricing from '@/components/Pricing'
 import CTA from '@/components/CTA'
-import EmailCapture from '@/components/EmailCapture'
 import Survey from '@/components/Survey'
 
 export const metadata: Metadata = {
