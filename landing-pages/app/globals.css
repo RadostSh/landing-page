@@ -11,13 +11,11 @@
 @layer components {
   /* Button Styles */
   .btn-primary {
-    background-color: #0ea5f0;
-    @apply hover:bg-[#0c8dd0] text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-soft hover:shadow-medium;
+    @apply bg-primary hover:bg-primary-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-soft hover:shadow-medium;
   }
   
   .btn-secondary {
-    background-color: #0ea5f0;
-    @apply hover:bg-[#0c8dd0] text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-soft hover:shadow-medium;
+    @apply bg-secondary hover:bg-secondary-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-soft hover:shadow-medium;
   }
   
   .btn-outline {
@@ -29,6 +27,11 @@
     @apply w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 text-white placeholder:text-white/50 backdrop-blur-md;
   }
   
+  /* Textarea Styles */
+  .textarea-primary {
+    @apply w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 text-white placeholder:text-white/50 backdrop-blur-md resize-none;
+  }
+  
   /* Card Styles - Glassmorphism */
   .card {
     @apply bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md hover:bg-white/10 transition-all duration-300 p-6;
@@ -37,6 +40,65 @@
   /* Section Container */
   .section-container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24;
+  }
+  
+  /* Navigation Links */
+  .footer-link {
+    @apply text-gray-300 hover:text-white text-sm md:text-base transition-colors;
+  }
+  
+  /* Text Styles */
+  .text-body {
+    @apply text-gray-300;
+  }
+  
+  .text-body-light {
+    @apply text-blue-100;
+  }
+  
+  .text-muted {
+    @apply text-gray-400;
+  }
+  
+  /* Section Headers */
+  .section-header {
+    @apply text-center mb-12;
+  }
+  
+  .section-header-large {
+    @apply text-center mb-16;
+  }
+  
+  /* Button Variants */
+  .btn-large {
+    @apply text-lg px-8 py-4;
+  }
+  
+  /* Form Elements */
+  .option-label {
+    @apply flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10 transition-colors;
+  }
+  
+  /* Layout Utilities */
+  .cta-container {
+    @apply flex flex-col sm:flex-row gap-4 justify-center items-center;
+  }
+  
+  .benefit-item {
+    @apply flex items-center gap-2;
+  }
+  
+  .avatar {
+    @apply w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold text-xl;
+  }
+  
+  /* Alert/Message Styles */
+  .alert-success {
+    @apply p-4 rounded-lg text-center font-medium bg-secondary/20 text-secondary-200 border border-secondary/30;
+  }
+  
+  .alert-error {
+    @apply p-4 rounded-lg text-center font-medium bg-red-500/20 text-red-200 border border-red-500/30;
   }
 }
 
@@ -49,4 +111,3 @@
     @apply bg-gradient-to-r from-secondary to-secondary-600;
   }
 }
-

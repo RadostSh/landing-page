@@ -25,10 +25,10 @@ export default function SolutionSection() {
   ]
 
   return (
-    <section className="section-container bg-transparent">
+    <section className="section-container">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="section-header-large">
           <h2 className="text-h2 text-white mb-4">
             SashiDo: The Backend Platform AI Coding Tools Deploy To
           </h2>
@@ -39,13 +39,13 @@ export default function SolutionSection() {
           {features.map((feature, index) => (
             <div 
               key={index}
-              className="card group"
+              className="card"
             >
               <div className="text-5xl mb-4">{feature.icon}</div>
               <h3 className="text-2xl font-semibold text-white mb-3">
                 {feature.title}
               </h3>
-              <p className="text-gray-300 text-lg font-medium whitespace-pre-line">
+              <p className="text-body text-lg font-medium whitespace-pre-line">
                 {feature.description}
               </p>
             </div>

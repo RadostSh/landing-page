@@ -64,16 +64,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Format platforms array - if "Other" is selected, include the otherPlatform text
-    let platformsText = data.platform.join(', ')
-    if (data.platform.includes('Other') && data.otherPlatform) {
-      platformsText = platformsText.replace('Other', `Other: ${data.otherPlatform}`)
-    }
+    const platformsText = data.platform.includes('Other') && data.otherPlatform
+      ? data.platform.map(p => p === 'Other' ? `Other: ${data.otherPlatform}` : p).join(', ')
+      : data.platform.join(', ')
 
     // Format deployment - if "Other" is selected, include the otherDeployment text
-    let deploymentText = data.current_deployment
-    if (data.current_deployment === 'Other' && data.otherDeployment) {
-      deploymentText = `Other: ${data.otherDeployment}`
-    }
+    const deploymentText = data.current_deployment === 'Other' && data.otherDeployment
+      ? `Other: ${data.otherDeployment}`
+      : data.current_deployment
 
     // Prepare Airtable record
     const airtableRecord = {
@@ -82,7 +80,7 @@ export async function POST(request: NextRequest) {
         'Needs Backend': data.needs_backend,
         'Current Deployment': deploymentText,
         'Pricing Expectation': data.pricing,
-        'Biggest Challenge': data.pain_point,
+        'Biggest Challenge': data.pain_point.trim(),
         'Submitted At': new Date().toISOString(),
       },
     }

@@ -25,14 +25,14 @@ export default function HowItWorks() {
   ]
 
   return (
-    <section className="section-container bg-transparent">
+    <section className="section-container">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="section-header-large">
           <h2 className="text-h2 text-white mb-4">
             From Code to Production
           </h2>
-          <p className="text-lg text-blue-100 max-w-3xl mx-auto">
+          <p className="text-lg text-body-light max-w-3xl mx-auto">
             Four simple steps to get your AI coding agent live and serving users
           </p>
         </div>
@@ -49,7 +49,7 @@ export default function HowItWorks() {
               className="relative"
             >
               {/* Step Card */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:scale-105 relative z-10 backdrop-blur-md">
+              <div className="card hover:scale-105 relative z-10">
                 {/* Step Number */}
                 <div className="text-6xl font-bold text-white mb-4 opacity-50">
                   {step.number}
@@ -61,7 +61,7 @@ export default function HowItWorks() {
                 </h3>
                 
                 {/* Description */}
-                <p className="text-gray-300">
+                <p className="text-body">
                   {step.description}
                 </p>
               </div>

@@ -46,13 +46,13 @@ export default function EmailCapture() {
   }
 
   return (
-    <section className="section-container bg-transparent" id="email-capture">
+    <section className="section-container" id="email-capture">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
           <h2 className="text-h2 text-white mb-4">
             Get Started Today
           </h2>
-          <p className="text-lg text-blue-100">
+          <p className="text-lg text-body-light">
             Start your 14-day free trial. Deploy your AI coding agent in minutes.
           </p>
         </div>
@@ -73,8 +73,7 @@ export default function EmailCapture() {
               disabled={status === 'loading' || status === 'success'}
               className={`
                 btn-primary whitespace-nowrap
-                ${status === 'loading' ? 'opacity-75 cursor-not-allowed' : ''}
-                ${status === 'success' ? 'opacity-75 cursor-not-allowed' : ''}
+                ${status === 'loading' || status === 'success' ? 'opacity-75 cursor-not-allowed' : ''}
               `}
             >
               {status === 'loading' ? 'Sending...' : status === 'success' ? '✓ Sent!' : 'Start Free Trial'}
@@ -82,16 +81,13 @@ export default function EmailCapture() {
           </div>
 
           {message && (
-            <div className={`
-              mt-4 p-4 rounded-lg text-center font-medium
-              ${status === 'success' ? 'bg-secondary/20 text-secondary-200 border border-secondary/30' : 'bg-red-500/20 text-red-200 border border-red-500/30'}
-            `}>
+            <div className={`mt-4 ${status === 'success' ? 'alert-success' : 'alert-error'}`}>
               {message}
             </div>
           )}
         </form>
 
-        <p className="text-center text-sm text-gray-400 mt-6">
+        <p className="text-center text-sm text-muted mt-6">
           No credit card required • 14-day free trial • Cancel anytime
         </p>
       </div>

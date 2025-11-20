@@ -26,23 +26,23 @@ export default function SocialProof() {
   ]
 
   return (
-    <section className="section-container bg-transparent">
+    <section className="section-container">
       <div className="max-w-6xl mx-auto">
         {/* Testimonials */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {testimonials.map((testimonial, index) => (
             <div key={index} className="card">
               <div className="text-4xl text-primary mb-4">"</div>
-              <p className="text-lg text-gray-300 mb-6 italic">
+              <p className="text-lg text-body mb-6 italic">
                 {testimonial.quote}
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold text-xl">
+                <div className="avatar">
                   {testimonial.author.charAt(0)}
                 </div>
                 <div>
                   <p className="font-semibold text-white">{testimonial.author}</p>
-                  <p className="text-sm text-blue-100">{testimonial.role}</p>
+                  <p className="text-sm text-body-light">{testimonial.role}</p>
                 </div>
               </div>
             </div>
@@ -51,18 +51,18 @@ export default function SocialProof() {
 
         {/* Trusted By Logos */}
         <div className="text-center">
-          <p className="text-sm uppercase tracking-wide text-gray-400 font-semibold mb-8">
+          <p className="text-sm uppercase tracking-wide text-muted font-semibold mb-8">
             Trusted by
           </p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
             {logos.map((logo, index) => (
               <Link
-              key={index}
-              href={logo.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-transform duration-300 hover:scale-110"
-            >
+                key={index}
+                href={logo.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-transform hover:scale-110"
+              >
                 <Image
                   src={logo.src}
                   alt={logo.alt}

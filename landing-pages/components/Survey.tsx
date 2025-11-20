@@ -2,6 +2,12 @@
 
 import { useState } from 'react'
 
+const SURVEY_BENEFITS = [
+  '50% off your first month',
+  'Early access to new features',
+  'Influence our roadmap',
+]
+
 const SURVEY_QUESTIONS = [
   {
     id: 'platform',
@@ -175,29 +181,29 @@ export default function Survey() {
 
   if (isComplete) {
     return (
-      <section className="section-container bg-transparent" id="survey">
+      <section className="section-container" id="survey">
         <div className="max-w-2xl mx-auto text-center">
           <div className="text-6xl mb-6">🎉</div>
           <h2 className="text-h2 mb-4 text-white">
             Thank you! Your feedback helps us build the platform you need.
           </h2>
-          <div className="bg-white/10 border border-white/20 rounded-2xl p-6 mb-8 backdrop-blur-md">
-            <p className="text-lg text-blue-100 mb-2">Your 50% off code:</p>
+          <div className="card mb-8">
+            <p className="text-lg text-body-light mb-2">Your 50% off code:</p>
             <div className="inline-block bg-secondary/20 border-2 border-secondary rounded-lg px-6 py-3 mb-4">
               <code className="text-2xl font-bold text-secondary-200">EARLY50</code>
             </div>
-            <p className="text-sm text-gray-400">(valid for first month)</p>
+            <p className="text-sm text-muted">(valid for first month)</p>
           </div>
           <div className="mb-8">
             <p className="text-lg text-white mb-4">Ready to deploy now?</p>
-          <button
-            onClick={() => window.location.href = 'https://www.sashido.io/signup'}
-            className="btn-secondary text-lg px-8 py-4"
-          >
+            <button
+              onClick={() => window.location.href = 'https://dashboard.sashido.io/register'}
+              className="btn-secondary btn-large"
+            >
               Start Free Trial
-          </button>
+            </button>
           </div>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-muted">
             We'll email you when new features launch.
           </p>
         </div>
@@ -208,40 +214,34 @@ export default function Survey() {
   // Show introduction screen
   if (currentQuestion === -1) {
     return (
-      <section className="section-container bg-transparent" id="survey">
+      <section className="section-container" id="survey">
         <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-h2 mb-4 text-white">
-              Help Us Build the Best Backend for AI-Generated Apps
-            </h2>
-            <p className="text-lg text-blue-100 mb-8">
-              We're building SashiDo specifically for developers using Lovable, Replit, v0.dev, and Cursor.
-            </p>
-          </div>
+        <div className="section-header">
+          <h2 className="text-h2 mb-4 text-white">
+            Help Us Build the Best Backend for AI-Generated Apps
+          </h2>
+          <p className="text-lg text-body-light mb-8">
+            We're building SashiDo specifically for developers using Lovable, Replit, v0.dev, and Cursor.
+          </p>
+        </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 mb-8 backdrop-blur-md">
+          <div className="card mb-8">
             <p className="text-lg text-white mb-6 text-center">
               Take 2 minutes to share your needs, and get:
             </p>
             <div className="space-y-4 mb-8">
-              <div className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg">
-                <span className="text-2xl mr-4">✅</span>
-                <span className="text-gray-300 text-lg">50% off your first month</span>
-              </div>
-              <div className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg">
-                <span className="text-2xl mr-4">✅</span>
-                <span className="text-gray-300 text-lg">Early access to new features</span>
-              </div>
-              <div className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg">
-                <span className="text-2xl mr-4">✅</span>
-                <span className="text-gray-300 text-lg">Influence our roadmap</span>
-              </div>
+              {SURVEY_BENEFITS.map((benefit, index) => (
+                <div key={index} className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg">
+                  <span className="text-2xl mr-4">✅</span>
+                  <span className="text-body text-lg">{benefit}</span>
+                </div>
+              ))}
             </div>
 
             <div className="text-center">
               <button
                 onClick={handleStartSurvey}
-                className="btn-primary text-lg px-8 py-4"
+                className="btn-primary btn-large"
               >
                 Start Survey
               </button>
@@ -253,13 +253,13 @@ export default function Survey() {
   }
 
   return (
-    <section className="section-container bg-transparent" id="survey">
+    <section className="section-container" id="survey">
       <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="section-header">
           <h2 className="text-h2 mb-4 text-white">
             Help Us Understand Your Needs
           </h2>
-          <p className="text-lg text-blue-100">
+          <p className="text-lg text-body-light">
             2-minute survey • Get early access to new features
           </p>
         </div>
@@ -267,8 +267,8 @@ export default function Survey() {
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between mb-2">
-            <span className="text-sm text-gray-400">Question {currentQuestion + 1} of {SURVEY_QUESTIONS.length}</span>
-            <span className="text-sm text-gray-400">{Math.round(((currentQuestion + 1) / SURVEY_QUESTIONS.length) * 100)}%</span>
+            <span className="text-sm text-muted">Question {currentQuestion + 1} of {SURVEY_QUESTIONS.length}</span>
+            <span className="text-sm text-muted">{Math.round(((currentQuestion + 1) / SURVEY_QUESTIONS.length) * 100)}%</span>
           </div>
           <div className="w-full bg-white/10 rounded-full h-2">
             <div 
@@ -279,7 +279,7 @@ export default function Survey() {
         </div>
 
         {/* Question Card */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-8 mb-8 backdrop-blur-md">
+        <div className="card mb-8">
           <h3 className="text-lg font-semibold mb-6 text-white">{question?.question}</h3>
 
           {/* Checkbox Question */}
@@ -288,7 +288,7 @@ export default function Survey() {
               {question.options?.map((option) => (
                 <label
                   key={option}
-                  className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10 transition-colors backdrop-blur-sm"
+                  className="option-label"
                 >
                     <input
                     type="checkbox"
@@ -296,7 +296,7 @@ export default function Survey() {
                     onChange={() => handleCheckboxChange(option)}
                     className="mr-3 w-4 h-4 text-primary rounded"
                     />
-                    <span className="text-gray-300">{option}</span>
+                    <span className="text-body">{option}</span>
                   </label>
                 ))}
               {question.id === 'platform' && (responses[question.id] || []).includes('Other') && (
@@ -319,7 +319,7 @@ export default function Survey() {
               {question.options?.map((option) => (
                 <label
                   key={option}
-                  className="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10 transition-colors backdrop-blur-sm"
+                  className="option-label"
                 >
                     <input
                       type="radio"
@@ -329,7 +329,7 @@ export default function Survey() {
                     onChange={() => handleRadioChange(option)}
                       className="mr-3 w-4 h-4 text-primary"
                     />
-                    <span className="text-gray-300">{option}</span>
+                    <span className="text-body">{option}</span>
                   </label>
                 ))}
               {question.id === 'current_deployment' && responses[question.id] === 'Other' && (
@@ -349,7 +349,7 @@ export default function Survey() {
           {/* Textarea Question */}
           {question && question.type === 'textarea' && (
             <div>
-              <p className="text-sm text-blue-100 mb-4">
+              <p className="text-sm text-body-light mb-4">
                 (Open text, {question.maxLength || 200} characters max)
               </p>
               <textarea
@@ -358,10 +358,10 @@ export default function Survey() {
                 placeholder="Tell us about your challenges..."
                 rows={5}
                 maxLength={question.maxLength || 200}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 text-white placeholder:text-white/50 backdrop-blur-md resize-none"
+                className="textarea-primary"
               />
               <div className="mt-2 text-right">
-                <span className={`text-sm ${(responses[question.id] || '').length > (question.maxLength || 200) * 0.9 ? 'text-yellow-400' : 'text-gray-400'}`}>
+                <span className={`text-sm ${(responses[question.id] || '').length > (question.maxLength || 200) * 0.9 ? 'text-yellow-400' : 'text-muted'}`}>
                   {(responses[question.id] || '').length} / {question.maxLength || 200} characters
                 </span>
               </div>
@@ -369,7 +369,7 @@ export default function Survey() {
           )}
 
           {error && (
-            <div className="mt-4 p-4 bg-red-500/20 border border-red-500/30 rounded-lg text-red-200">
+            <div className="mt-4 alert-error">
               {error}
             </div>
           )}
@@ -379,10 +379,7 @@ export default function Survey() {
         <div className="flex justify-between items-center">
           <button
             onClick={handleBack}
-            className={`
-              px-6 py-3 rounded-lg font-semibold transition-all duration-200
-              text-gray-300 hover:bg-white/10
-            `}
+            className="px-6 py-3 rounded-lg font-semibold transition-all duration-200 text-body hover:bg-white/10"
           >
             ← Back
           </button>
@@ -392,9 +389,9 @@ export default function Survey() {
               onClick={handleNext}
               disabled={!isStepValid()}
               className={`
-                px-8 py-3 rounded-lg font-semibold transition-all duration-200
+                btn-large font-semibold
                 ${isStepValid()
-                  ? 'bg-primary hover:bg-primary-600 text-white'
+                  ? 'btn-primary'
                   : 'bg-white/10 text-gray-500 cursor-not-allowed'
                 }
               `}
@@ -406,9 +403,9 @@ export default function Survey() {
               onClick={handleSubmit}
               disabled={!isStepValid() || isSubmitting}
               className={`
-                px-8 py-3 rounded-lg font-semibold transition-all duration-200
+                btn-large font-semibold
                 ${isStepValid() && !isSubmitting
-                  ? 'bg-secondary hover:bg-secondary-600 text-white'
+                  ? 'btn-secondary'
                   : 'bg-white/10 text-gray-500 cursor-not-allowed'
                 }
               `}
