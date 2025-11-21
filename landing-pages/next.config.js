@@ -16,6 +16,15 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   swcMinify: true,
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/ai-coding-agents',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig
