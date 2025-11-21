@@ -69,6 +69,8 @@ export default function SocialProof() {
                   width={120}
                   height={40}
                   className="object-contain"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100px, 120px"
                 />
               </Link>
             ))}

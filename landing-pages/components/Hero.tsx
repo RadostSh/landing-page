@@ -45,6 +45,7 @@ export default function Hero() {
           <Link 
             href="https://dashboard.sashido.io/register" 
             target="_blank"
+            rel="noopener noreferrer"
             className="btn-primary btn-large"
           >
             Start Free Trial
