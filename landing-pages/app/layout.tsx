@@ -3,6 +3,7 @@ import Script from 'next/script'
 import { Ubuntu } from 'next/font/google'
 import './globals.css'
 import Footer from '@/components/Footer' 
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const ubuntu = Ubuntu({ 
   subsets: ['latin'],
@@ -92,6 +93,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={ubuntu.variable}>
       <body className={ubuntu.className}>
+      <SpeedInsights/>
         <Script
           id="structured-data-software"
           type="application/ld+json"
