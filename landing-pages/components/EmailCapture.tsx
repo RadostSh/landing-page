@@ -45,7 +45,7 @@ export function EmailCapture({ source }: { source: string }) {
   if (status === 'success') {
     return (
       <div className="alert-success max-w-md mx-auto text-center">
-        <h3 className="text-xl font-bold mb-2">🎉 You're on the list!</h3>
+        <h3 className="text-xl font-bold mb-2">🎉 You&apos;re on the list!</h3>
         <p>
           Check your email for trial setup instructions.
         </p>

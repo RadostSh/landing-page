@@ -32,7 +32,7 @@ export default function SocialProof() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {testimonials.map((testimonial, index) => (
             <div key={index} className="card">
-              <div className="text-4xl text-primary mb-4">"</div>
+              <div className="text-4xl text-primary mb-4">&quot;</div>
               <p className="text-lg text-body mb-6 italic">
                 {testimonial.quote}
               </p>

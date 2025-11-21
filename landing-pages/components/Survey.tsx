@@ -200,7 +200,7 @@ export default function Survey() {
             </button>
           </div>
           <p className="text-sm text-muted">
-            We'll email you when new features launch.
+            We&apos;ll email you when new features launch.
           </p>
         </div>
       </section>
@@ -217,7 +217,7 @@ export default function Survey() {
             Help Us Build the Best Backend for AI-Generated Apps
           </h2>
           <p className="text-lg text-body-light mb-8">
-            We're building SashiDo specifically for developers using Lovable, Replit, v0.dev, and Cursor.
+            We&apos;re building SashiDo specifically for developers using Lovable, Replit, v0.dev, and Cursor.
           </p>
         </div>
 

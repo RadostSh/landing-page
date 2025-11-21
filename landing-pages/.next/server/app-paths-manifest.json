@@ -1,1 +1,7 @@
-{}
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/subscribe/route": "app/api/subscribe/route.js",
+  "/api/survey/route": "app/api/survey/route.js",
+  "/icon.png/route": "app/icon.png/route.js",
+  "/ai-coding-agents/page": "app/ai-coding-agents/page.js"
+}

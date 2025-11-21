@@ -37,7 +37,7 @@ export default function ProblemSection() {
         {/* Conclusion */}
         <div className="card text-center">
           <p className="text-lg md:text-xl text-body font-medium mb-2">
-            There's no "deploy to production" button for AI-generated Parse apps.
+            There&apos;s no &quot;deploy to production&quot; button for AI-generated Parse apps.
           </p>
           <p className="text-xl md:text-2xl text-white font-bold">
             Until now.
